@@ -25,7 +25,7 @@ def run2():
     try:
         print("보내볼게!!!")
         # 이미지 파일을 바이트 배열로 읽어옵니다. 이 예제에서는 'image.jpg'라는 파일을 사용합니다.
-        with open('./image2.jpg', 'rb') as f:
+        with open('./image.jpg', 'rb') as f:
             image_data = f.read()
         # Request 메시지를 생성합니다.
         request = hello_pb2.Request(
