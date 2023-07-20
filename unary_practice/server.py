@@ -3,8 +3,8 @@ import time
 
 import grpc
 
-import hello_pb2
-import hello_pb2_grpc
+import unary_practice.hello_pb2 as hello_pb2
+import unary_practice.hello_pb2_grpc as hello_pb2_grpc
 
 class Greeter(hello_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
