@@ -6,6 +6,9 @@ import grpc
 import hello_pb2 as hello_pb2
 import hello_pb2_grpc as hello_pb2_grpc
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')  # Agg 백엔드 사용
 
 class Greeter(hello_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
@@ -14,10 +17,10 @@ class Greeter(hello_pb2_grpc.GreeterServicer):
     
     def Diffusion(self, request, context):
         print(request.prompt)
-        image_np = np.frombuffer(request.image, dtype=np.uint8).reshape((request.width, request.height,3))
+        image_np = np.frombuffer(request.image, dtype=np.uint8).reshape((request.height, request.width,3))
         # 이미지 데이터의 shape 출력
         print("Image shape:", image_np.shape)
-        with open('request_image.jpg', 'wb') as f:
+        with open('./images/request_image.jpg', 'wb') as f:
             f.write(request.image)
         print("서버 응답 이미지를 'response_image.jpg'로 저장하였습니다.")
         return hello_pb2.Response(image=request.image)
