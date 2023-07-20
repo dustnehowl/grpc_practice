@@ -14,7 +14,7 @@ class Greeter(hello_pb2_grpc.GreeterServicer):
     
     def Diffusion(self, request, context):
         print(request.prompt)
-        image_np = np.frombuffer(request.image, dtype=np.uint8)
+        image_np = np.frombuffer(request.image, dtype=np.uint8).reshape((request.width, request.height,3))
         # 이미지 데이터의 shape 출력
         print("Image shape:", image_np.shape)
         with open('request_image.jpg', 'wb') as f:

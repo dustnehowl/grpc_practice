@@ -17,6 +17,8 @@ message HelloRequest {
 message Request {
   string prompt = 1;
   bytes image = 2;
+  int32 width = 3;
+  int32 height = 4;
 }
 
 message Response{

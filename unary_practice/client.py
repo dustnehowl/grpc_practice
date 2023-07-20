@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import grpc
 import hello_pb2 as hello_pb2
 import hello_pb2_grpc as hello_pb2_grpc
+from PIL import Image
 
 dotenv_path = '../.env'
 load_dotenv(dotenv_path)
@@ -24,13 +25,19 @@ def run2():
     stub = hello_pb2_grpc.GreeterStub(channel)
     try:
         print("보내볼게!!!")
-        # 이미지 파일을 바이트 배열로 읽어옵니다. 이 예제에서는 'image.jpg'라는 파일을 사용합니다.
+        with Image.open('./images/image.jpg') as img:
+            width, height = img.size
+            print(f"Image size: {width} x {height}")
+            
         with open('./images/image.jpg', 'rb') as f:
             image_data = f.read()
+
         # Request 메시지를 생성합니다.
         request = hello_pb2.Request(
             prompt="Image send from macbook!",  # 원하는 프롬프트를 입력합니다.
-            image=image_data        # 이미지 데이터를 bytes 필드에 할당합니다.
+            image=image_data,                   # 이미지 데이터를 bytes 필드에 할당합니다.
+            width=width,                        # 이미지 너비를 width 필드에 할당합니다.
+            height=height                       # 이미지 높이를 height 필드에 할당합니다.
         )
         # Greeter 서비스의 Diffusion 메서드에 단일 요청으로 Request 메시지를 보내고, 응답을 받습니다.
         response = stub.Diffusion(request)
