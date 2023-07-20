@@ -23,7 +23,7 @@ def serve():
     print("start server...")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     hello_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
-    server.add_insecure_port('localhost:50051')
+    server.add_insecure_port('0.0.0.0:50051')
     server.start()
     try:
         while True:
