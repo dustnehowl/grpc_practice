@@ -25,7 +25,7 @@ def run2():
     try:
         print("보내볼게!!!")
         # 이미지 파일을 바이트 배열로 읽어옵니다. 이 예제에서는 'image.jpg'라는 파일을 사용합니다.
-        with open('./image.jpg', 'rb') as f:
+        with open('./images/image.jpg', 'rb') as f:
             image_data = f.read()
         # Request 메시지를 생성합니다.
         request = hello_pb2.Request(
@@ -35,7 +35,7 @@ def run2():
         # Greeter 서비스의 Diffusion 메서드에 단일 요청으로 Request 메시지를 보내고, 응답을 받습니다.
         response = stub.Diffusion(request)
         # 서버로부터 받은 응답으로 이미지를 저장합니다. 이 예제에서는 'response_image.jpg'라는 파일에 저장합니다.
-        with open('response_image.jpg', 'wb') as f:
+        with open('./images/response_image.jpg', 'wb') as f:
             f.write(response.image)
         print("서버 응답 이미지를 'response_image.jpg'로 저장하였습니다.")
     except grpc.RpcError as e:
