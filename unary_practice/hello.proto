@@ -4,6 +4,7 @@ package hello;
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc Diffusion (Request) returns (Response) {}
 }
 
 // Message Definition
@@ -11,6 +12,15 @@ message HelloRequest {
   string name = 1;
   int32 num = 2;
   bool has_boolean = 3;
+}
+
+message Request {
+  string prompt = 1;
+  bytes image = 2;
+}
+
+message Response{
+  bytes image = 1;
 }
 
 message HelloReply {

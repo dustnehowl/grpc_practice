@@ -3,16 +3,24 @@ import time
 
 import grpc
 
-import unary_practice.hello_pb2 as hello_pb2
-import unary_practice.hello_pb2_grpc as hello_pb2_grpc
+import hello_pb2 as hello_pb2
+import hello_pb2_grpc as hello_pb2_grpc
 
 class Greeter(hello_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
         print(request.name)
         return hello_pb2.HelloReply(message=f'Hello, {request.name}!, {request.num}!, {request.has_boolean}!')
+    
+    def Diffusion(self, request, context):
+        print(request.prompt)
+        with open('request_image.jpg', 'wb') as f:
+            f.write(request.image)
+        print("서버 응답 이미지를 'response_image.jpg'로 저장하였습니다.")
+        return hello_pb2.Response(image=request.image)
 
 
 def serve():
+    print("start server...")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     hello_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
     server.add_insecure_port('localhost:50051')

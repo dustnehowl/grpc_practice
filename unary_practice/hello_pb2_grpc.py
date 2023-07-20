@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import unary_practice.hello_pb2 as hello__pb2
+import hello_pb2 as hello__pb2
 
 
 class GreeterStub(object):
@@ -19,12 +19,23 @@ class GreeterStub(object):
                 request_serializer=hello__pb2.HelloRequest.SerializeToString,
                 response_deserializer=hello__pb2.HelloReply.FromString,
                 )
+        self.Diffusion = channel.unary_unary(
+                '/hello.Greeter/Diffusion',
+                request_serializer=hello__pb2.Request.SerializeToString,
+                response_deserializer=hello__pb2.Response.FromString,
+                )
 
 
 class GreeterServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def SayHello(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Diffusion(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +48,11 @@ def add_GreeterServicer_to_server(servicer, server):
                     servicer.SayHello,
                     request_deserializer=hello__pb2.HelloRequest.FromString,
                     response_serializer=hello__pb2.HelloReply.SerializeToString,
+            ),
+            'Diffusion': grpc.unary_unary_rpc_method_handler(
+                    servicer.Diffusion,
+                    request_deserializer=hello__pb2.Request.FromString,
+                    response_serializer=hello__pb2.Response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +78,22 @@ class Greeter(object):
         return grpc.experimental.unary_unary(request, target, '/hello.Greeter/SayHello',
             hello__pb2.HelloRequest.SerializeToString,
             hello__pb2.HelloReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Diffusion(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/hello.Greeter/Diffusion',
+            hello__pb2.Request.SerializeToString,
+            hello__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
