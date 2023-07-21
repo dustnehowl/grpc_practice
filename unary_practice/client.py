@@ -11,7 +11,7 @@ import time
 dotenv_path = '../.env'
 load_dotenv(dotenv_path)
 cvlab_host = os.getenv("CVLAB_HOST")
-# cvlab_host = "localhost:50051"
+cvlab_host = "localhost:50051"
 
 def run():
     channel = grpc.insecure_channel(cvlab_host)
